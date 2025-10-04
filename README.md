@@ -19,3 +19,10 @@ Execute the binary:
 ```shell
 ./hello-world
 ```
+
+## Notes
+
+- Filenames use dashes `hello-world.go`
+- You can omit the return type if the function doesn't return anything
+- `...someVar` means 0 or more values
+- Boolean logic is similar to Scala, `&&`/`||`/`!`
