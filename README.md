@@ -26,3 +26,18 @@ Execute the binary:
 - You can omit the return type if the function doesn't return anything
 - `...someVar` means 0 or more values
 - Boolean logic is similar to Scala, `&&`/`||`/`!`
+- `[...]` in array definition means compiler will count elements
+- Trailing commas at end of array defs etc
+- Check arrays empty by checking against `nil`
+- Can do similar to Scala extension methods
+
+## Questions
+
+- do not understand `make([]string, 3, 5)` third param?
+    - is capacity underlying array size?
+- if a map is 0 valued, how to save a 0?
+
+## To Read
+
+- https://go.dev/tour/list
+- https://go.dev/blog/slices-intro

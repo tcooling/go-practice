@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"maps"
 	"math"
+	"slices"
 	"time"
 )
 
@@ -14,6 +16,9 @@ func main() {
 	forLoop()
 	ifElse()
 	switchConditional()
+	arrays()
+	slicesFunc()
+	mapFunc()
 }
 
 func values() {
@@ -184,5 +189,146 @@ func getGreeting(language string) string {
 		return "Bonjour"
 	default:
 		return "Hi"
+	}
+}
+
+func arrays() {
+	// In Go, an array is a numbered sequence of elements of specific length
+	// Slices are more common
+	var a [5]int
+	fmt.Println("emp:", a) // array is 0 valued (0, empty string etc)
+
+	a[4] = 100
+	fmt.Println("set:", a)
+	fmt.Println("get:", a[4])
+
+	// below does not compile as 5 is out of bounds
+	// fmt.Println("get:", a[5])
+
+	fmt.Println("len:", len(a))
+
+	// declare and init on one line
+	b := [5]int{1, 2, 3, 4, 5}
+	fmt.Println("dcl:", b)
+
+	// have the compiler count the elements
+	b = [...]int{1, 2, 3, 4, 5}
+	fmt.Println("dcl:", b)
+
+	// if specify ':', elements between are zeroed
+	b = [...]int{100, 3: 400, 500}
+	fmt.Println("idx:", b)
+
+	c := [...]int{1, 2, 3, 4, 5, 6, 7, 8}
+	fmt.Println("c:", c)
+
+	// compose arrays for multi dimensional
+	var twoD [2][3]int
+	for i := range 2 {
+		for j := range 3 {
+			twoD[i][j] = i + j
+		}
+	}
+	fmt.Println("2d:", twoD)
+
+	twoD = [2][3]int{
+		{1, 2, 3},
+		{1, 2, 3},
+	}
+	fmt.Println("2d:", twoD)
+}
+
+func slicesFunc() {
+	// slices are more powerful than arrays
+	// an unitialised slice has length of 0
+
+	var s []string
+	fmt.Println("un-init:", s, s == nil, len(s) == 0)
+
+	// to create a slice with a non zero length, use make
+	// this will fill it with 0 valued (empty string) values
+	s = make([]string, 3)
+	fmt.Println("emp:", s, "len:", len(s), "cap:", cap(s))
+	s[0] = "a"
+	s[1] = "b"
+	s[2] = "c"
+	fmt.Println("set:", s)
+	fmt.Println("get:", s[2])
+	fmt.Println("len:", len(s))
+
+	// slices support append, need to assign to variable
+	// as could get back new slice value
+	s = append(s, "d")
+	s = append(s, "e", "f")
+	fmt.Println("apd:", s)
+
+	c := make([]string, len(s))
+	copy(c, s)
+	fmt.Println("cpy:", c)
+
+	// get slice of elements between 2 and 5 (excluding 5)
+	l := s[2:5]
+	fmt.Println("sl1:", l)
+
+	l = s[:5]
+	fmt.Println("sl2:", l)
+
+	l = s[2:]
+	fmt.Println("sl3:", l)
+
+	t := []string{"g", "h", "i"}
+	fmt.Println("dcl:", t)
+
+	t2 := []string{"g", "h", "i"}
+
+	if slices.Equal(t, t2) {
+		fmt.Println("t == t2")
+	}
+
+	twoD := make([][]int, 3)
+	for i := range 3 {
+		innerLen := i + 1
+		twoD[i] = make([]int, innerLen)
+		for j := range innerLen {
+			twoD[i][j] = i + j
+		}
+	}
+	fmt.Println("2d:", twoD)
+}
+
+func mapFunc() {
+	// similar to dicts or hash maps etc
+	// map[key-type]val-type
+	m := make(map[string]int)
+
+	m["k1"] = 7
+	m["k2"] = 13
+
+	fmt.Println("map", m)
+
+	v1 := m["k1"]
+	fmt.Println("v1:", v1)
+
+	v3 := m["k3"]
+	fmt.Println("v3:", v3)
+
+	fmt.Println("len:", len(m))
+
+	delete(m, "k2")
+	fmt.Println("map:", m)
+
+	clear(m)
+	fmt.Println("map:", m)
+
+	// second return value, prs, indicates if key is present
+	_, prs := m["k2"]
+	fmt.Println("prs:", prs)
+
+	n := map[string]int{"foo": 1, "bar": 2}
+	fmt.Println("map:", n)
+
+	n2 := map[string]int{"foo": 1, "bar": 2}
+	if maps.Equal(n, n2) {
+		fmt.Println("n == n2")
 	}
 }
